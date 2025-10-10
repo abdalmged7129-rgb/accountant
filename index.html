@@ -5,7 +5,7 @@
 </section>
 <header>
        ملفات قسم المحاسبة - كلية إدارة الأعمال<nav>
- <a href="#ads">📢 إعلانات</a>
+<a href="#ads">📢 إعلانات</a>
   </nav>
      </header>
 
@@ -78,13 +78,6 @@
 
 
   </section>
-
-</body>
-</html>
-  
-
-
-
 </body>
 </html>
 
@@ -146,7 +139,7 @@
     <button id="tab-major" onclick="selectMain('major')" class="inactive">📘 متطلبات تخصص (52 ساعة)</button>
     <button id="tab-univ" onclick="selectMain('univ')" class="inactive">🏛 متطلبات جامعية (25 ساعة)</button>
     <button id="tab-optional" onclick="selectMain('Optional')" class="inactive">🎯 متطلبات اختيارية 6 ساعة</button>
-    <button id="tab-ads" onclick="selectMain('Advertisement')" class="inactive">📢 إعلان</button>
+    <button id="tab-ads" onclick="selectMain('Advertisement')" class="inactive">📢 إعلانات الجامعة</button>
   </div>
 
   <div class="container">
@@ -171,7 +164,7 @@
 
       <div id="emptyCard" class="card">
         <h3 class="section-title">إرشادات سريعة</h3>
-        <p class="hint">اضغط على أحد الأقسام أعلى (متطلبات كلية / تخصص / جامعية / اختيارية / اعلان) ثم اختر مادة من الجهة اليسرى.</p>
+        <p class="hint">اضغط على أحد الأقسام أعلى (متطلبات كلية / تخصص / جامعية / اختيارية / اعلانات الجامعة) ثم اختر مادة من الجهة اليسرى.</p>
       </div>
     </div>
   </div>
@@ -224,7 +217,8 @@ const data = {
 {label:'🟠المحذوف من الكتاب هي الوحدة السادسه فقط'},
 {label:'✅ تنويه:'},
 {label:'الاختبار يحتاج انه تدرب على مسائل اكثر من مره لكي تثبت المعلومه'}]},// باقي مواد المتطلبات الكلية (بدون روابط الآن)
-{id:'acc2', title:'مبادئ المحاسبة 2', 
+
+{id:'acc2', title:'مبادئ المحاسبة 2(4 ساعات)', 
 videos:[       
         {label:'د. نبيل – محاضره 1 تسوية المصروفات', url:'https://drive.google.com/file/d/1YoHdVdbnZbPUuxCBhH7s8RDUqrQN6cjF/view?usp=drivesdk'},
         {label:'د. نبيل – محاضره 2 الايرادات', url:'https://drive.google.com/file/d/1Ch1GMWf__49f0fAWzxPbhVtlIreitFuc/view?usp=drivesdk'},
@@ -260,13 +254,13 @@ news:[
 {label:'الوحدة الرابعة: من صـ (262) إلى صـ (288).'},
 {label:'الوحدة الخامسة: من صـ (315) إلى صـ (338).'},
 {label:'الوحدة السابعة: الطرق المحاسبية من صـ (375) إلى صـ (462).'}]},
-    {id:'busi', title:'مبادئ إدارة الأعمال', videos:[
+
+    {id:'busi', title:'مبادئ إدارة الأعمال(3 ساعات)', videos:[
         {label:'المحاضره 1 ', url:'https://youtu.be/1IKoXXxcjdc?si=4kCA-YR9Cmkm-83l=drivesdk'},
         {label:'المحاضره 2 ', url:'https://youtu.be/1UDINZZtG5o?si=FSMIfNq6czhxW5lI=drivesdk'},
         {label:'المحاضرة 3', url:'https://youtu.be/vrPLjycceQY?si=HbojYjzk_XrnNFa8=drivesdk'},
         {label:'المحاضرة 4', url:'https://youtu.be/Od9r_32sfR8?si=zoN4lS4Q0mIL2Q2u=drivesdk'},
-        {label:'قناة محاضرات متكامله لدكتوره ينصح الاعتماد عليها اكثر ', url:'https://youtube.com/playlist?list=PLzLmjaQB3jxbdHbRUY5tEKgG13niCAgeS&si=cAkOcgPJIrhy6_Fc=drivesdk'},
-], 
+        {label:'قناة محاضرات متكامله لدكتوره ينصح الاعتماد عليها اكثر ', url:'https://youtube.com/playlist?list=PLzLmjaQB3jxbdHbRUY5tEKgG13niCAgeS&si=cAkOcgPJIrhy6_Fc=drivesdk'}], 
 books:[
        {label:'كتاب ادارة الاعمال ', url:'https://drive.google.com/open?id=1VzeqAKuSnZPExsBq-y-ZGD1eSyPCS0Fn&usp=drive_fs=drivesdk'}],
  models:[
@@ -294,12 +288,12 @@ books:[
 {label:'✅ تنويه: الاختبار يحتاج فهم وحفظ جيد + لذلك يُفضل الجمع بين الملخص أو الكتاب والنماذج.'}]},
    
 
- {id:'eco_micro', title:'مبادئ الاقتصاد الجزئي', 
+ {id:'eco_micro', title:'مبادئ الاقتصاد الجزئي(3 ساعات)', 
 videos:[
         {label:'قناة صادق', url:'https://youtube.com/playlist?list=PL8436LuIZoAqWmdpm94zjmiZvj1n0X4e3&si=SGowjbZ_X-mNCtd0=drivesdk'},
         {label:'شرح الملخص', url:'https://www.youtube.com/playlist?list=PLzLmjaQB3jxYMwmTHTwGmBeXf0o_H-9kr'},]
 , books:[
-        {label:'كتاب ادارة الاعمال ', url:'https://drive.google.com/open?id=1oaV2BmNBMRTX0aaf9nOfMvOIRU78M7NH&usp=drive_fs=drivesdk'}]
+        {label:'كتاب مبادئ الاقتصاد الجزئي ', url:'https://drive.google.com/open?id=1oaV2BmNBMRTX0aaf9nOfMvOIRU78M7NH&usp=drive_fs=drivesdk'}]
 , models:[
         {label:'رسم إقتصاد جزئي (سمية مرزوق) 🕊', url:'https://drive.google.com/open?id=1BXqLT6B96kaxy3IUTgP3yaxCAT5paLCh&usp=drive_fs=drivesdk'},
         {label:'معدل مسائل اقتصاد جزئي ليلى', url:'https://drive.google.com/open?id=1FtRsf1TtZGCxM7qgXsvkEDqCM1WpGjru&usp=drive_fs=drivesdk'},
@@ -335,60 +329,141 @@ videos:[
 {label:'بهذه الطريقة، ما راح تأخذ معك المادة أكثر من أسبوع — عن تجربة.'},
 {label:'🟠 المحذوف من الكتاب:'},
 {label:'الكتاب كامل مقرر علينا بدون أي حذف.'}]},
-    {id:'eco_macro', title:'مبادئ الاقتصاد الكلي', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'law', title:'القانون التجاري', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'marketing', title:'مبادئ التسويق', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'stat', title:'إحصاء تطبيقي', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'fin_man', title:'الإدارة المالية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'purch', title:'إدارة المشتريات والمخازن', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'math_admin', title:'الرياضيات في العلوم الإدارية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'ethics', title:'أخلاقيات منظمات الأعمال', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'moneybank', title:'اقتصاديات النقود والبنوك', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'self_skill', title:'مهارة التعلم الذاتي', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'eng_terms', title:'مصطلحات ومراسلات باللغة E', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'org_behavior', title:'السلوك التنظيمي', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'grad_research', title:'بحث التخرج', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
+
+    {id:'eco_macro', title:'مبادئ الاقتصاد الكلي(3 ساعات)', 
+videos:[
+        {label:'المحاضرة 1⃣', url:'https://youtu.be/mTpKbTrb8Q0?si=Ib8OBuLgZq8UPbDJ'},
+        {label:'المحاضرة 2⃣', url:'https://youtu.be/MBEdm3-l5zg?si=sFP8WDQVRzLnu3aM'},
+        {label:'المحاضرة 3⃣', url:'https://youtu.be/Z87RjhCBRp0?si=B41oQRmtmlYQlkNo'},
+        {label:'المحاضرة 4⃣', url:'https://youtu.be/NAJ4i8svQC8?si=fOILqCfy96iUOMlW'},]
+, books:[
+        {label:'كتاب مبادئ الاقتصاد الكلي ', url:'https://drive.google.com/open?id=1Z7zWxlXGrIxwd3jVh66ZUPZjY8WgFRsn&usp=drive_fs=drivesdk'} ]
+, models:[
+         {label:'��قوانين_مع_مسائل_اقتصاد_كلي_شامل_230524_140901� ', url:'https://drive.google.com/open?id=1mF9hCAFwug6TmoW1D0wjZuiwnIAfN98Y&usp=drive_fs=drivesdk'},
+         {label:'نموذج النظري الاقتصاد الكليpdf0 ', url:'https://drive.google.com/open?id=1qGtcrCLvVlWJv2wkc9qo6JrSkeSS322p&usp=drive_fs=drivesdk'},
+         {label:'نموذج النظري الاقتصاد الكلي ^Nاختبر نفسك', url:'https://drive.google.com/open?id=1Hwu-NBroWyyUu5ikNH0aUcoRywhxu0QC&usp=drive_fs=drivesdk'},]
+, summaries:[
+         {label:'حسابي الاقتصاد الكلي1.', url:'https://drive.google.com/open?id=1A8IKVxdtbjst9fHsiZRu_mx-aNk3tmAL&usp=drive_fs=drivesdk'},
+         {label:'مقالي كلي ', url:'https://drive.google.com/open?id=1oLIOJBAlOVPJC83y4Y5-3Y6m5zzUXYK8&usp=drive_fs=drivesdk'}]
+, Telegram:[
+            {label:'شرح الاقتصاد الكلي 🤍.', url:'https://t.me/rymy2023'},
+            {label:'اقتصاد كلي', url:'https://t.me/+ueUPiEBnDA5iZDM0'}]
+, news:[
+        {label:'🟠 نوع المادة:'},
+{label:'مقالية.'},
+{label:'🟠 نمط الاختبار النهائي:'},
+{label:'الاختبار يتكوّن من قسمين، ومجموع الدرجات 100 درجة:'},
+{label:'أولًا: الأسئلة المقالية (70 درجة)'},
+{label:'تتكون من 4 أسئلة (نظري وحسابي).'},
+{label:'الأسئلة الحسابية: سؤالان، كل سؤال عليه 23 درجة (المجموع 46 درجة).'},
+{label:'الأسئلة النظرية: سؤالان، كل سؤال عليه 12 درجة (المجموع 24 درجة).'},
+{label:'ثانيًا: الأسئلة الموضوعية (30 درجة)'},
+{label:'10 درجات صح وخطأ.'},
+{label:'10 درجات اختيار وحيد.'},
+{label:'10 درجات اختيار متعدد.'},
+{label:'🟠 طريقة المذاكرة:'},
+{label:'1. ابدأ بمشاهدة محاضرات الدكتور الأربعة فقط، فهي تشرح القوانين وطريقة الحل وتختصر الكثير من محتوى الكتاب.'},
+{label:'2. بعد ذلك، انتقل إلى النماذج للممارسة والتطبيق العملي.'},
+{label:'3. إذا رغبت في تثبيت فهمك أكثر، يمكنك الاطلاع على قنوات التليجرام بعد الانتهاء من المحاضرات، فهي تعتبر مراجعة ممتازة.'},
+{label:'⚠️ ملاحظة: لا تبدأ بقنوات التليجرام قبل مشاهدة المحاضرات، حتى لا يحدث خلط أو تشويش في المعلومات.'},
+{label:'🟠 المحذوف من الكتاب:'},
+{label:'الكتاب كامل مقرر علينا بدون أي حذف.'}]},
+
+    {id:'law', title:'القانون التجاري(3 ساعات)',
+ videos:[{label:'قائمة المحاضرات 1⃣', url:'https://youtube.com/playlist?list=PLzLmjaQB3jxZYXtIB4AEjlVINQiot9J14&si=YJqxEGEF6ali4MIO'},
+        {label:'قائمة المحاضرات 2⃣', url:'https://www.youtube.com/watch?v=ofZaOxXqong&list=PLoURjA1UEuTwoLFDEjjc08NHbv7Q5DghC'}
+        ]
+, books:[
+         {label:'كتاب القانون التجاري ', url:'https://drive.google.com/open?id=1540gJvM1WrcIx7Nt_bJ5aVZf7bueYbp-&usp=drive_fs=drivesdk'}]
+, models:[
+         {label:'اختبرنفسك_قانون تجاري_محمد الحاشدي 2025 ', url:'https://drive.google.com/open?id=1Ie3R341Ysk5KUQmRJTQNnmDI98ZJsdjB&usp=drive_fs=drivesdk'},
+         {label:'شامل_قانون تجاري_محمدالحاشدي 2025', url:'https://drive.google.com/open?id=1uqmAwdYqJdXyBQ13xCsrwAAHf0jrlBek&usp=drive_fs=drivesdk'}]
+, summaries:[
+             {label:'ملخص القانون التجاري ', url:'https://drive.google.com/open?id=1QH8QcH9elvlTLDnNKFhhA3SpZSfKkiBN&usp=drive_fs=drivesdk'},
+             {label:'AI - مقالي قانون تجاري_محمدالحاشدي ', url:'https://drive.google.com/open?id=1lrHxes_qvYnZzeCTnHSBYdRh3lLfXkIs&usp=drive_fs=drivesdk'}]
+, Telegram:[
+           {label:'شرح الاقتصاد الكلي 🤍.', url:'https://t.me/+LuHJkIJV5CJiNTRk'}]
+, news:[
+        {label:'🔸 نوع المادة:'},
+{label:'نظرية بالكامل.'},
+{label:'📝 نظام الاختبار:'},
+{label:'الأسئلة المقالية:'},
+{label:'3 أسئلة → تحل 2 فقط (تحذف واحد)'},
+{label:'→ الدرجة: 30 درجة'},
+{label:'الأسئلة الموضوعية (اختيارات):'},
+{label:'تشمل:'},
+{label:'✔️ صح وخطأ'},
+{label:'✔️ اختيار من متعدد'},
+{label:'✔️ أسئلة وحيدة الإجابة'},
+{label:'→ الدرجة: 70 درجة'},
+{label:'نصيحة في مذاكرة المادة:'},
+{label:'المادة ليست صعبة ولا سهلة، المادة مفهومة ولكنها مكثّفة، وفيها تشابه كبير بالمعلومات، لذلك تحتاج تركيز وتنظيم.'},
+{label:'📝 طريقة المذاكرة المقترحة:'},
+{label:'1. ابدأ بالكتاب كامل:'},
+{label:'اقرأه قراءة بفهم، لأن هذا بيسهّل عليك كثير لما توصل للنماذج. و ممكن تختصر هذي الخطوه .. أكمل وبتعرف كيف 👇🏻'},
+{label:'2. انتقل للنماذج (المقالي):'},
+{label:'أولاً: اقرأه قراءة كاملة بفهم (في حال لم تقرأ الكتاب) بحيث يكون عندك فكرة شاملة على المادة، وهذه الخطوة تفيد كثير في سرعة الحفظ بعدين.'},
+{label:'ثانيًا: ابدأ بمذاكرة المقالي حفظًا وفهمًا، كلٌ بطريقته.'},
+{label:'معلومة: دكتور المادة ما يهمه كتابة الإجابة نصًا من الكتاب، ممكن تكون بالفهم ولكن تكون صحيحة وبطريقة نموذجية.'},
+{label:'3. انتقل للنظري:'},
+{label:'بتلاحظوا أنها جدًا سهلة بسبب أن المعلومات مكررة بسبب دراسة المقالي وقراءة الكتاب، وممكن تبدأوا بالمتعدد ثم الصح والخطأ ثم الوحيد (من الأصعب إلى الأسهل).'},
+{label:'⏳ كم تحتاج؟'},
+{label:'المادة تحتاج أسبوعين مذاكرة عشان تعطيها حقها وتكون مريحة لك.'},
+{label:'✅ معلومة مهمة:'},
+{label:'إذا ذاكرت بفهم وتنظيم، بتستمتع بالمادة فعليًا، لأنها جميلة وسلسة وقت المذاكرة.'}]},
+    {id:'marketing', title:'مبادئ التسويق(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'stat', title:'إحصاء تطبيقي(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'fin_man', title:'الإدارة المالية(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'purch', title:'إدارة المشتريات والمخازن(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'math_admin', title:'الرياضيات في العلوم الإدارية(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'ethics', title:'أخلاقيات منظمات الأعمال(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'moneybank', title:'اقتصاديات النقود والبنوك(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'self_skill', title:'مهارة التعلم الذاتي(2 ساعة)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'eng_terms', title:'مصطلحات ومراسلات باللغة E(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'org_behavior', title:'السلوك التنظيمي(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'grad_research', title:'بحث التخرج(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
   ],
 
   major: [
-    {id:'man_acc', title:'محاسبة إدارية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'audit1', title:'مراجعة وتدقيق الحسابات 1', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'audit2', title:'مراجعة وتدقيق الحسابات 2', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'corp_acc', title:'محاسبة شركات الأموال', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'part_acc', title:'محاسبة شركات الأشخاص', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'cost_acc', title:'محاسبة التكاليف', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'cost_sys', title:'نظم محاسبة التكاليف', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'acc_english', title:'دراسات محاسبية باللغة الانجليزية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'tax1', title:'المحاسبة الضريبية 1', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'tax2', title:'المحاسبة الضريبية 2', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'gov_acc', title:'المحاسبة الحكومية والقومية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'int_acc', title:'المحاسبة الدولية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'spec_acc', title:'محاسبة المنشآت المتخصصة', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'mis1', title:'نظم المعلومات المحاسبية 1', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'mis2', title:'نظم المعلومات المحاسبية 2', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'fin_ent', title:'محاسبة المنشات الماليه', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'acc_theory', title:'النظرية المحاسبية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'acc_apps', title:'تطبيقات محاسبية بالحاسوب', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
+    {id:'man_acc', title:'محاسبة إدارية(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'audit1', title:'مراجعة وتدقيق الحسابات 1(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'audit2', title:'مراجعة وتدقيق الحسابات 2(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'corp_acc', title:'محاسبة شركات الأموال(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'part_acc', title:'محاسبة شركات الأشخاص(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'cost_acc', title:'محاسبة التكاليف(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'cost_sys', title:'نظم محاسبة التكاليف(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'acc_english', title:'دراسات محاسبية باللغة الانجليزية(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'tax1', title:'المحاسبة الضريبية 1(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'tax2', title:'المحاسبة الضريبية 2(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'gov_acc', title:'المحاسبة الحكومية والقومية(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'int_acc', title:'المحاسبة الدولية(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'spec_acc', title:'محاسبة المنشآت المتخصصة(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'mis1', title:'نظم المعلومات المحاسبية 1(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'mis2', title:'نظم المعلومات المحاسبية 2(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'fin_ent', title:'محاسبة المنشات الماليه(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'acc_theory', title:'النظرية المحاسبية(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'acc_apps', title:'تطبيقات محاسبية بالحاسوب(1 ساعة)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
   ],
 
   univ: [
-    {id:'arabic', title:'اللغة العربية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'islamic', title:'ثقافة اسلامية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'quran', title:'القرآن الكريم', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'it_skills', title:'مهارات الحاسوب', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'eng1', title:'اللغة الإنجليزية 1', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'eng2', title:'اللغة الإنجليزية 2', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'comm_skills', title:'مهارات الاتصال', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'leadership', title:'تنمية المهارات القيادية', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'critical', title:'التفكير الناقد', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
-    {id:'research', title:'طرق البحث العلمي', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
+    {id:'arabic', title:'اللغة العربية(4 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'islamic', title:'ثقافة اسلامية(4 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'quran', title:'القرآن الكريم(1 ساعة)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'it_skills', title:'مهارات الحاسوب(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'eng1', title:'اللغة الإنجليزية 1(4 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'eng2', title:'اللغة الإنجليزية 2(4 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'comm_skills', title:'مهارات الاتصال(1 ساعة)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'leadership', title:'تنمية المهارات القيادية(1 ساعة)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'critical', title:'التفكير الناقد(1 ساعة)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'research', title:'طرق البحث العلمي(2 ساعة)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
   ],
 
   Optional: [
-    {id:'opt1', title:'متطلب اختياري مثال', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
+    {id:'opt1', title:'متطلب اختياري مثال(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},
+    {id:'opt1', title:'متطلب اختياري مثال(3 ساعات)', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
   ],
 
-  /* إعلانات تظهر مباشرة عند اختيار تبويب "اعلان" */
+  /* إعلانات تظهر مباشرة عند اختيار تبويب "اعلانات الجامعة" */
   AdvertisementAnnouncements: [
     {label:'إعلان الجامعة: تم تعديل الجدول الدراسي للأسبوع القادم. راجع لوحة الإعلانات.', url:''},
     {label:'إعلان طلابي: تسليم مشاريع التخرج يوم الأحد الساعة 10 صباحاً.', url:''},
@@ -523,7 +598,7 @@ function renderSubTabs(){
     {key:'models', label:'📂 نماذج'},
     {key:'summaries', label:'📝 ملخصات'},
     {key:'Telegram', label:'📌 تليجرام'},
-    {key:'news', label:'📢 إعلانات'}
+    {key:'news', label:'🔖 دليل المذاكرة'}
   ];
   tabs.forEach(t=>{
     const btn = document.createElement('button');
