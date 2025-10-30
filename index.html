@@ -347,33 +347,43 @@ section {
 <button id="tab-ads" onclick="selectMain('Advertisement')" class="inactive">📢 إعلانات الجامعة</button>
   </div>
 
-  <div class="container">
-    <!-- اليسار: قائمة المواد -->
-    <div class="left">
-      <div class="card">
-        <p class="section-title">قائمة المواد</p>
-<ul id="subjects" class="subject-list"></ul>
-<ul id="graduatesList" class="subject-list" style="display:none;"></ul>
+   <div class="container">
+  <!-- اليسار: قائمة المواد والخريجين -->
+ <div class="left">
+  <div class="card">
+    <!-- عنوان قائمة المواد -->
+    <p class="section-title" id="subjectsTitle">قائمة المواد</p>
+    <ul id="subjects" class="subject-list"></ul>
+
+    <!-- عنوان قائمة الخريجين -->
+    <p class="section-title" id="graduatesTitle" style="display:none;">أسماء الخريجين</p>
+    <ul id="graduatesList" class="subject-list" style="display:none;"></ul>
+  </div>
+</div>
+
+
+  <!-- اليمين: تفاصيل المادة أو الخريج -->
+  <div class="right">
+    <div id="subjectCard" class="card" style="display:none">
+      <div class="subject-header">
+        <h2 id="subjectTitle">عنوان المادة / اسم الخريج</h2>
+        <div><button class="back-link" onclick="showSubjects()">رجوع للقائمة</button></div>
+      </div>
+      <div class="sub-tabs" id="subTabs"></div>
+      <div class="tab-area" id="tabArea">
+        <p class="hint">اختر تبويبًا لعرض الملفات أو الفيديوهات</p>
       </div>
     </div>
 
-    <!-- اليمين: تفاصيل المادة -->
-    <div class="right">
-      <div id="subjectCard" class="card" style="display:none">
-        <div class="subject-header">
-          <h2 id="subjectTitle">عنوان المادة</h2>
-          <div><button class="back-link" onclick="showSubjects()">رجوع للقائمة</button></div>
-        </div>
-        <div class="sub-tabs" id="subTabs"></div>
-        <div class="tab-area" id="tabArea"><p class="hint">اختر تبويبًا لعرض الملفات أو الفيديوهات</p></div>
-      </div>
-
-      <div id="emptyCard" class="card">
-        <h3 class="section-title">إرشادات سريعة</h3>
-        <p class="hint">اضغط على أحد الأقسام أعلى (متطلبات كلية / تخصص / جامعية / اختيارية / اعلانات الجامعة) ثم اختر مادة من الجهة اليسرى.</p>
-      </div>
+    <div id="emptyCard" class="card">
+      <h3 class="section-title">إرشادات سريعة</h3>
+      <p class="hint">
+        اضغط على أحد الأقسام أعلى (متطلبات كلية / تخصص / جامعية / اختيارية / اعلانات الجامعة / الخريج) 
+        ثم اختر مادة أو خريج من الجهة اليسرى.
+      </p>
     </div>
   </div>
+</div>
 
 <script>
 /* === DATA: عدّل هنا لإضافة روابط أو إعلانات === */
@@ -2646,82 +2656,107 @@ function openSubTab(tabKey){
   tabAreaEl.appendChild(ul);
 }
 
-/* انطلق */
-selectMain('college');
+/* انطلق */selectMain
+('college');
 (function(){
   const tabGraduate = document.getElementById('tab-graduate');
   const mainTabs = document.querySelectorAll('.main-tabs button');
   const subjectsList = document.getElementById('subjects');
+  const subjectsTitle = document.getElementById('subjectsTitle');
   const graduatesList = document.getElementById('graduatesList');
+  const graduatesTitle = document.getElementById('graduatesTitle');
   const subjectCard = document.getElementById('subjectCard');
   const tabArea = document.getElementById('tabArea');
+  const subTabsDiv = document.getElementById('subTabs');
+  const subjectTitle = document.getElementById('subjectTitle');
 
-  // بيانات الخريج
- const graduates = [
-  {
-    id: 'grad1',
-    name: 'الخريج....... 1',
-    tabs: [
-      {id:'grad-msg', title:'📜 رسالة التخرج', content:'<p>محتوى رسالة التخرج 1</p>'},
-      {id:'grad-proj', title:'💼 مشروع التخرج', content:'<p>محتوى مشروع التخرج 1</p>'}
-    ]
-  },
-  {
-    id: 'grad2',
-    name: 'الخريج....... 2',
-    tabs: [
-      {id:'grad-msg', title:'📜 رسالة التخرج', content:'<p>محتوى رسالة التخرج 2</p>'},
-      {id:'grad-proj', title:'💼 مشروع التخرج', content:'<p>محتوى مشروع التخرج 2</p>'}
-    ]
-  }
-];
+  // بيانات الخريجين
+  const graduates = [
+    {
+      id: 'grad1',
+      name: 'الخريج 1',
+      tabs: [
+        {id:'grad-msg', title:'📜 رسالة التخرج', content:'<p>محتوى رسالة التخرج 1</p>'},
+        {id:'grad-proj', title:'💼 مشروع التخرج', content:'<p>محتوى مشروع التخرج 1</p>'}
+      ]
+    },
+    {
+      id: 'grad2',
+      name: 'الخريج 2',
+      tabs: [
+        {id:'grad-msg', title:'📜 رسالة التخرج', content:'<p>محتوى رسالة التخرج 2</p>'},
+        {id:'grad-proj', title:'💼 مشروع التخرج', content:'<p>محتوى مشروع التخرج 2</p>'}
+      ]
+    }
+  ];
 
-
-  // زر الخريج
+  // عند الضغط على تبويب الخريج
   tabGraduate.addEventListener('click', function(){
+    // تفعيل زر الخريج وإلغاء تفعيل باقي الأزرار
     mainTabs.forEach(b => b.classList.add('inactive'));
     tabGraduate.classList.remove('inactive');
 
+    // إخفاء قائمة المواد وعنوانها
     subjectsList.style.display = 'none';
-    graduatesList.style.display = 'block';
-    graduatesList.innerHTML = '';
+    subjectsTitle.style.display = 'none';
 
+    // إظهار قائمة الخريجين وعنوانها
+    graduatesList.style.display = 'block';
+    graduatesTitle.style.display = 'block';
+
+    // مسح أي محتوى سابق
+    graduatesList.innerHTML = '';
+    subjectCard.style.display = 'none';
+    subTabsDiv.innerHTML = '';
+    tabArea.innerHTML = '';
+
+    // إضافة أسماء الخريجين
     graduates.forEach(g => {
       const li = document.createElement('li');
       li.textContent = g.name;
-      li.style.cursor = 'pointer';
       li.style.padding = '8px 12px';
       li.style.borderBottom = '1px solid #eee';
+      li.style.cursor = 'pointer';
 
       li.addEventListener('click', function(){
+        // عرض البطاقة في الجهة اليمنى باسم الخريج
         subjectCard.style.display = 'block';
+        subjectTitle.textContent = g.name;
         tabArea.innerHTML = '';
-
-        const subTabsDiv = document.getElementById('subTabs');
         subTabsDiv.innerHTML = '';
+
+        // إنشاء تبويبان: رسالة التخرج ومشروع التخرج
         g.tabs.forEach(t => {
           const btn = document.createElement('button');
           btn.textContent = t.title;
           btn.style.marginRight = '8px';
-          btn.addEventListener('click', ()=>{
-            tabArea.innerHTML = t.content;
-          });
+          btn.addEventListener('click', ()=> tabArea.innerHTML = t.content);
           subTabsDiv.appendChild(btn);
         });
+
+        // اختيار التبويب الأول تلقائيًا عند فتح الخريج
+        if(g.tabs.length > 0){
+          tabArea.innerHTML = g.tabs[0].content;
+        }
+
+        // التمرير تلقائيًا إلى الأعلى حتى يظهر المحتوى
+        subjectCard.scrollIntoView({behavior: 'smooth'});
       });
+
       graduatesList.appendChild(li);
     });
-
-    subjectCard.style.display = 'none';
   });
 
-  // التبويبات الأخرى (لكل زر غير الخريج)
+  // عند الضغط على أي تبويب آخر، العودة لقائمة المواد
   mainTabs.forEach(btn => {
     if(btn.id !== 'tab-graduate'){
       btn.addEventListener('click', function(){
-        // إعادة عرض المواد وإخفاء قائمة الخريج
+        // إظهار قائمة المواد وإخفاء قائمة الخريجين
         graduatesList.style.display = 'none';
+        graduatesTitle.style.display = 'none';
         subjectsList.style.display = 'block';
+        subjectsTitle.style.display = 'block';
+
         subjectCard.style.display = 'none';
         tabGraduate.classList.add('inactive');
 
