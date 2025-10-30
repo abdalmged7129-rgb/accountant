@@ -340,10 +340,11 @@ section {
   <!-- تبويبات رئيسية: متطلبات -->
   <div class="main-tabs">
     <button id="tab-college" onclick="selectMain('college')">📚 متطلبات كلية (52 ساعة)</button>
-    <button id="tab-major" onclick="selectMain('major')" class="inactive">📘 متطلبات تخصص (52 ساعة)</button>
-    <button id="tab-univ" onclick="selectMain('univ')" class="inactive">🏛 متطلبات جامعية (25 ساعة)</button>
-    <button id="tab-optional" onclick="selectMain('Optional')" class="inactive">🎯 متطلبات اختيارية 6 ساعة</button>
-    <button id="tab-ads" onclick="selectMain('Advertisement')" class="inactive">📢 إعلانات الجامعة</button>
+<button id="tab-major" onclick="selectMain('major')" class="inactive">📘 متطلبات تخصص (52 ساعة)</button>
+<button id="tab-univ" onclick="selectMain('univ')" class="inactive">🏛 متطلبات جامعية (25 ساعة)</button>
+<button id="tab-optional" onclick="selectMain('Optional')" class="inactive">🎯 متطلبات اختيارية (6 ساعات)</button>
+<button id="tab-graduate" class="inactive">👨‍🎓 رسالة خريج</button>
+<button id="tab-ads" onclick="selectMain('Advertisement')" class="inactive">📢 إعلانات الجامعة</button>
   </div>
 
   <div class="container">
@@ -351,7 +352,8 @@ section {
     <div class="left">
       <div class="card">
         <p class="section-title">قائمة المواد</p>
-        <ul id="subjects" class="subject-list"></ul>
+<ul id="subjects" class="subject-list"></ul>
+<ul id="graduatesList" class="subject-list" style="display:none;"></ul>
       </div>
     </div>
 
@@ -2455,7 +2457,8 @@ books:[
 {label:'- كتاب المادة جديد.'},
 {label:'- تم تجميع النماذج وشرحها في قناة التليجرام'},
 {label:'- يُفضل الاطلاع على الكتاب إلى جانب الشرح لضمان الفهم الكامل'}]},
-    {id:'opt3', title:'يوجد مواد اخرى ولاكن عادة مايختارها الطلاب فقط هذه المواد الموجود لها نمتذج وملخصات. ', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]},],
+    {id:'opt3', title:'يوجد مواد اخرى ولاكن عادة مايختارها الطلاب فقط هذه المواد الموجود لها نمتذج وملخصات. ', videos:[], books:[], models:[], summaries:[], Telegram:[], news:[]}
+],
 
   /* إعلانات تظهر مباشرة عند اختيار تبويب "اعلانات الجامعة" */
   AdvertisementAnnouncements: [
@@ -2645,6 +2648,92 @@ function openSubTab(tabKey){
 
 /* انطلق */
 selectMain('college');
+(function(){
+  const tabGraduate = document.getElementById('tab-graduate');
+  const mainTabs = document.querySelectorAll('.main-tabs button');
+  const subjectsList = document.getElementById('subjects');
+  const graduatesList = document.getElementById('graduatesList');
+  const subjectCard = document.getElementById('subjectCard');
+  const tabArea = document.getElementById('tabArea');
+
+  // بيانات الخريج
+ const graduates = [
+  {
+    id: 'grad1',
+    name: 'الخريج....... 1',
+    tabs: [
+      {id:'grad-msg', title:'📜 رسالة التخرج', content:'<p>محتوى رسالة التخرج 1</p>'},
+      {id:'grad-proj', title:'💼 مشروع التخرج', content:'<p>محتوى مشروع التخرج 1</p>'}
+    ]
+  },
+  {
+    id: 'grad2',
+    name: 'الخريج....... 2',
+    tabs: [
+      {id:'grad-msg', title:'📜 رسالة التخرج', content:'<p>محتوى رسالة التخرج 2</p>'},
+      {id:'grad-proj', title:'💼 مشروع التخرج', content:'<p>محتوى مشروع التخرج 2</p>'}
+    ]
+  }
+];
+
+
+  // زر الخريج
+  tabGraduate.addEventListener('click', function(){
+    mainTabs.forEach(b => b.classList.add('inactive'));
+    tabGraduate.classList.remove('inactive');
+
+    subjectsList.style.display = 'none';
+    graduatesList.style.display = 'block';
+    graduatesList.innerHTML = '';
+
+    graduates.forEach(g => {
+      const li = document.createElement('li');
+      li.textContent = g.name;
+      li.style.cursor = 'pointer';
+      li.style.padding = '8px 12px';
+      li.style.borderBottom = '1px solid #eee';
+
+      li.addEventListener('click', function(){
+        subjectCard.style.display = 'block';
+        tabArea.innerHTML = '';
+
+        const subTabsDiv = document.getElementById('subTabs');
+        subTabsDiv.innerHTML = '';
+        g.tabs.forEach(t => {
+          const btn = document.createElement('button');
+          btn.textContent = t.title;
+          btn.style.marginRight = '8px';
+          btn.addEventListener('click', ()=>{
+            tabArea.innerHTML = t.content;
+          });
+          subTabsDiv.appendChild(btn);
+        });
+      });
+      graduatesList.appendChild(li);
+    });
+
+    subjectCard.style.display = 'none';
+  });
+
+  // التبويبات الأخرى (لكل زر غير الخريج)
+  mainTabs.forEach(btn => {
+    if(btn.id !== 'tab-graduate'){
+      btn.addEventListener('click', function(){
+        // إعادة عرض المواد وإخفاء قائمة الخريج
+        graduatesList.style.display = 'none';
+        subjectsList.style.display = 'block';
+        subjectCard.style.display = 'none';
+        tabGraduate.classList.add('inactive');
+
+        // استدعاء selectMain للزر الحالي
+        if(typeof selectMain === 'function'){
+          selectMain(btn.id === 'tab-ads' ? 'Advertisement' : btn.getAttribute('onclick').match(/'([^']+)'/)[1]);
+        }
+      });
+    }
+  });
+
+})();
 </script>
 </body>
 </html>
@@ -3135,6 +3224,7 @@ function openContactButton() {
   const whatsappNumbers = [
     {name: "م.عبدالمجيد المنيعي - مسؤول البوابة", number: "966535378082"},
     {name: "م.محمد منير - مشرف قروبات المحاسبة", number: "966545237384"},
+    {name: "م.ايلاف فؤاد - مشرفة قروبات المحاسبة", number: "966538191360"},
     {name: "م.إيمان القاسمي - مشرفة قروبات المحاسبة", number: "966557211628"},
     {name: "م.يوسف علاء- مشرف قروبات المحاسبة", number: "966531552683"},
     {name: "م.فاطمة فهد- مشرفة قروبات المحاسبة", number: "966546348345"},
