@@ -2477,7 +2477,8 @@ books:[
     {label:'الخطة الدراسيه للمحاسبة - PDF', url:'https://drive.google.com/open?id=1Q-7YlmNwgvEevAB11KrUsi-g9lcrtlnz&usp=drive_fs=drivesdk'},
     {label:'مفردات مقررات الخطة الدراسية - PDF', url:'https://drive.google.com/open?id=1l5_FAPHGeSZdyy58WHwSLXdDT3JesAea&usp=drive_fs=drivesdk'},
     {label:'المادة والمواد المتعلقة بها', url:'https://drive.google.com/open?id=1z1jAbgXyrGAhy3iKGIqtHu0tEd-Fy_JL&usp=drive_fs'},
-          {label:'عدد ساعات المواد', url:'https://drive.google.com/open?id=1FBU7ybxDb8GESbJ4rcguvmISprmbcgCf&usp=drive_fs'}
+    {label:'عدد ساعات المواد', url:'https://drive.google.com/open?id=1FBU7ybxDb8GESbJ4rcguvmISprmbcgCf&usp=drive_fs'},
+    {label:'جدول اللقاءات التعليمية للفصل الدراسي الأول', url:'https://isss.com.my/edltable/'}
   ]
 };
 /* === نهاية البيانات === */
@@ -2774,7 +2775,30 @@ books:[
   window.selectMain = selectMain;
 
   // نشغل التبويب الافتراضي (college) بعد تحميل السكربتsetTimeout(()=> selectMain(window.currentMain || 'college'), 120);
+ function backToSubjects(){
+    // إعادة عرض المواد
+    if(subjectsListEl) subjectsListEl.style.display = 'block';
+    if(subjectsTitleEl) subjectsTitleEl.style.display = 'block';
 
+    // إخفاء الخريجين
+    if(graduatesListEl) graduatesListEl.style.display = 'none';
+    if(graduatesTitleEl) graduatesTitleEl.style.display = 'none';
+
+    // إخفاء البطاقة وإظهار التعليمات
+    if(subjectCard) subjectCard.style.display = 'none';
+    if(emptyCard) emptyCard.style.display = 'block';
+
+    // إزالة أي تحديد
+    window.currentSubject = null;
+    document.querySelectorAll('.subject-list li, #graduatesList li').forEach(li=>li.classList.remove('active'));
+  }
+
+  // ربط دالة المرة الوحيدة: عند الضغط على زر الرأس (الموجود داخل HTML) هو يستدعي showSubjects() حاليًا
+  // سنجعل showSubjects() يستدعي backToSubjects لضمان العودة الصحيحة في كل الحالات
+  window.showSubjects = function(){
+    // لو كنت داخل خريج حالياً أريد إظهار المواد، وإلا فقط اخفاء البطاقة
+    backToSubjects();
+  };
 console.log('Tabs script loaded. Elements:', {
   subjectsList: !!subjectsListEl,
   subjectsTitle: !!subjectsTitleEl,
@@ -3214,6 +3238,8 @@ function openContactButton() {
     <h2 id="ads">📢 الإعلانات</h2>
     <p>✅ تم تعديل جدول أعمال السنة، الرجاء مراجعة هذه الصفحة باستمرار للاطلاع على أي جديد.</p>
     <p>للاطلاع على جدول الاعمال السنوي وغيرة من الاعلانات اضغط تبويب اعلان في الاعلى.</p>
+    <p>نُذكّركم ببدء اللقاءات التعليمية للفصل الأول 2025/1 من يوم السبت 18 أكتوبر 2025م.<p>
+     <p>📘 يمكنكم الاطلاع على الجدول واختيار المواد عبر الرابط الموجود اعلى داخل تبويب اعلانات الجامعة:<p>
   </section>
 
 
