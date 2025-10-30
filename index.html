@@ -2482,291 +2482,306 @@ books:[
 };
 /* === نهاية البيانات === */
 
+(function(){
+  // عناصر DOM الأساسية — نحاول الحصول عليها ونرمي تحذيرًا إن لم توجد
+  function $id(id){ const el = document.getElementById(id); if(!el) console.warn('Missing element:', id); return el; }
 
-/* === UI logic === */
-const subjectsListEl = document.getElementById('subjects');
-const subjectCard = document.getElementById('subjectCard');
-const emptyCard = document.getElementById('emptyCard');
-const subjectTitleEl = document.getElementById('subjectTitle');
-const subTabsEl = document.getElementById('subTabs');
-const tabAreaEl = document.getElementById('tabArea');
-
-let currentMain = 'college';
-let currentSubject = null;
-let currentSubTab = null;
-
-function updateMainButtons(mainKey){
-  const mapping = {
+  const btnIds = {
     college:'tab-college',
     major:'tab-major',
     univ:'tab-univ',
     Optional:'tab-optional',
-    Advertisement:'tab-ads'
+    Advertisement:'tab-ads',
+    graduate:'tab-graduate'
   };
-  for(const k in mapping){
-    const btn = document.getElementById(mapping[k]);
-    if(!btn) continue;
-    btn.classList.toggle('inactive', k !== mainKey);
-  }
-}
 
-function selectMain(key){
-  currentMain = key;
-  updateMainButtons(key);
+  const subjectsListEl = $id('subjects');
+  const subjectsTitleEl = $id('subjectsTitle');
+  const graduatesListEl = $id('graduatesList');
+  const graduatesTitleEl = $id('graduatesTitle');
+  const subjectCard = $id('subjectCard');
+  const emptyCard = $id('emptyCard');
+  const subjectTitleEl = $id('subjectTitle');
+  const subTabsEl = $id('subTabs');
+  const tabAreaEl = $id('tabArea');
 
-  // special case: Advertisement -> show announcements directly (no subject list)
-  if(key === 'Advertisement'){
-    showAdvertisement();
-    return;
-  }
+  // متغيرات الحالة العامة (نضمن وجودها على window)
+  window.currentMain = window.currentMain || 'college';
+  window.currentSubject = window.currentSubject || null;
+  window.currentSubTab = window.currentSubTab || null;
 
-  renderSubjects(key);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+  // حماية: إذا لم يكن هناك data، نعرّفها ككائن فارغ لتجنّب الأخطاء
+  if(typeof window.data === 'undefined') window.data = {};
 
-function renderSubjects(mainKey){
-  subjectsListEl.innerHTML = '';
-  const arr = data[mainKey] || [];
-  arr.forEach(item=>{
-    const li = document.createElement('li');
-    li.textContent = item.title;
-    li.dataset.id = item.id;
-    li.onclick = ()=>selectSubject(item.id);
-    li.id = 'subject-'+item.id;
-    subjectsListEl.appendChild(li);
-  });
-  // hide subject card, show empty instructions
-  subjectCard.style.display='none';
-  emptyCard.style.display='block';
-}
-
-function showAdvertisement(){
-  // hide subjects list (clear) and show card with announcements directly
-  subjectsListEl.innerHTML = '';
-  subjectCard.style.display='block';
-  emptyCard.style.display='none';
-  subjectTitleEl.textContent = '📢 الإعلانات';
-  subTabsEl.innerHTML = ''; // no sub-tabs for ads
-
-  tabAreaEl.innerHTML = '';
-  const h = document.createElement('h3'); h.textContent = 'إعلانات مهمة';
-  tabAreaEl.appendChild(h);
-
-  if(!data.AdvertisementAnnouncements || data.AdvertisementAnnouncements.length===0){
-    const p = document.createElement('p'); p.className='hint'; p.textContent = 'لا توجد إعلانات حاليا.';
-    tabAreaEl.appendChild(p);
-    return;
-  }
-
-  const ul = document.createElement('ul');
-  data.AdvertisementAnnouncements.forEach(it=>{
-    const li = document.createElement('li');
-    if(it.url){
-      const a = document.createElement('a'); a.href = it.url; a.target='_blank'; a.rel='noopener'; a.className='link'; a.textContent = it.label;
-      li.appendChild(a);
-    } else {
-      const span = document.createElement('div'); span.textContent = it.label; span.style.color='var(--muted)'; li.appendChild(span);
+  // مساعدة: تفعيل/تعطيل أزرار التبويب بصيغة inactive
+  function updateMainButtons(mainKey){
+    for(const k in btnIds){
+      const id = btnIds[k];
+      const btn = document.getElementById(id);
+      if(!btn) continue;
+      if(k === mainKey) btn.classList.remove('inactive'); else btn.classList.add('inactive');
     }
-    ul.appendChild(li);
-  });
-  tabAreaEl.appendChild(ul);
-}
-
-function findSubjectById(id){
-  const arr = data[currentMain] || [];
-  return arr.find(s=>s.id===id);
-}
-
-function selectSubject(id){
-  currentSubject = findSubjectById(id);
-  if(!currentSubject) return;
-  document.querySelectorAll('.subject-list li').forEach(li=>li.classList.remove('active'));
-  const liEl = document.getElementById('subject-'+id); if(liEl) liEl.classList.add('active');
-
-  subjectCard.style.display='block';
-  emptyCard.style.display='none';
-  subjectTitleEl.textContent = currentSubject.title;
-
-  renderSubTabs();
-  openSubTab('videos'); // default
-  subjectCard.scrollIntoView({behavior:'smooth'});
-}
-
-function showSubjects(){
-  currentSubject = null;
-  document.querySelectorAll('.subject-list li').forEach(li=>li.classList.remove('active'));
-  subjectCard.style.display='none';
-  emptyCard.style.display='block';
-}
-
-function renderSubTabs(){
-  subTabsEl.innerHTML = '';
-  const tabs = [
-    {key:'videos', label:'🎥 فيديوهات'},
-    {key:'books', label:'📑 كتب'},
-    {key:'models', label:'📂 نماذج'},
-    {key:'summaries', label:'📝 ملخصات'},
-    {key:'Telegram', label:'📌 تليجرام'},
-    {key:'news', label:'🔖 دليل المذاكرة'}
-  ];
-  tabs.forEach(t=>{
-    const btn = document.createElement('button');
-    btn.textContent = t.label;
-    btn.onclick = ()=>openSubTab(t.key);
-    btn.id = 'subbtn-'+t.key;
-    subTabsEl.appendChild(btn);
-  });
-}
-
-function openSubTab(tabKey){
-  currentSubTab = tabKey;
-  document.querySelectorAll('.sub-tabs button').forEach(b=>b.classList.remove('active'));
-  const btn = document.getElementById('subbtn-'+tabKey); if(btn) btn.classList.add('active');
-
-  tabAreaEl.innerHTML = '';
-  if(!currentSubject){
-    tabAreaEl.innerHTML = '<p class="hint">اختر مادة لعرض المحتوى.</p>';
-    return;
   }
 
-  const items = currentSubject[tabKey] || [];
-  const titleMap = { videos:'قائمة الفيديوهات', books:'الكتب (PDF/ملفات)', models:'نماذج / ملفات', summaries:'الملخصات', Telegram:'قنوات تليجرام', news:'الإعلانات' };
-  const h = document.createElement('h3'); h.textContent = titleMap[tabKey] || 'المحتوى'; tabAreaEl.appendChild(h);
-
-  if(items.length===0){
-    const p = document.createElement('p'); p.className='hint'; p.textContent = 'لا يوجد محتوى هنا بعد. .';
-    tabAreaEl.appendChild(p); return;
-  }
-
-  const ul = document.createElement('ul');
-  items.forEach(it=>{
-    const li = document.createElement('li');
-    if(it.url){
-      const a = document.createElement('a'); a.href = it.url; a.target='_blank'; a.rel='noopener'; a.className='link'; a.textContent = it.label || it.url;
-      li.appendChild(a);
-    } else {
-      const span = document.createElement('div'); span.textContent = it.label || ''; span.style.color='var(--muted)';
-      li.appendChild(span);
-    }
-    if(it.desc){
-      const d = document.createElement('div'); d.style.marginTop='6px'; d.style.color='var(--muted)'; d.textContent = it.desc; li.appendChild(d);
-    }
-    ul.appendChild(li);
-  });
-  tabAreaEl.appendChild(ul);
-}
-
-/* انطلق */selectMain
-('college');
-(function(){
-  const tabGraduate = document.getElementById('tab-graduate');
-  const mainTabs = document.querySelectorAll('.main-tabs button');
-  const subjectsList = document.getElementById('subjects');
-  const subjectsTitle = document.getElementById('subjectsTitle');
-  const graduatesList = document.getElementById('graduatesList');
-  const graduatesTitle = document.getElementById('graduatesTitle');
-  const subjectCard = document.getElementById('subjectCard');
-  const tabArea = document.getElementById('tabArea');
-  const subTabsDiv = document.getElementById('subTabs');
-  const subjectTitle = document.getElementById('subjectTitle');
-
-  // بيانات الخريجين
-  const graduates = [
-    {
-      id: 'grad1',
-      name: 'الخريج 1',
-      tabs: [
-        {id:'grad-msg', title:'📜 رسالة التخرج', content:'<p>محتوى رسالة التخرج 1</p>'},
-        {id:'grad-proj', title:'💼 مشروع التخرج', content:'<p>محتوى مشروع التخرج 1</p>'}
-      ]
-    },
-    {
-      id: 'grad2',
-      name: 'الخريج 2',
-      tabs: [
-        {id:'grad-msg', title:'📜 رسالة التخرج', content:'<p>محتوى رسالة التخرج 2</p>'},
-        {id:'grad-proj', title:'💼 مشروع التخرج', content:'<p>محتوى مشروع التخرج 2</p>'}
-      ]
-    }
-  ];
-
-  // عند الضغط على تبويب الخريج
-  tabGraduate.addEventListener('click', function(){
-    // تفعيل زر الخريج وإلغاء تفعيل باقي الأزرار
-    mainTabs.forEach(b => b.classList.add('inactive'));
-    tabGraduate.classList.remove('inactive');
-
-    // إخفاء قائمة المواد وعنوانها
-    subjectsList.style.display = 'none';
-    subjectsTitle.style.display = 'none';
-
-    // إظهار قائمة الخريجين وعنوانها
-    graduatesList.style.display = 'block';
-    graduatesTitle.style.display = 'block';
-
-    // مسح أي محتوى سابق
-    graduatesList.innerHTML = '';
-    subjectCard.style.display = 'none';
-    subTabsDiv.innerHTML = '';
-    tabArea.innerHTML = '';
-
-    // إضافة أسماء الخريجين
-    graduates.forEach(g => {
+  // عرض قائمة المواد للقسم المحدد
+  function renderSubjects(mainKey){
+    if(!subjectsListEl) return;
+    subjectsListEl.innerHTML = '';
+    const arr = data[mainKey] || [];
+    arr.forEach(item=>{
       const li = document.createElement('li');
-      li.textContent = g.name;
-      li.style.padding = '8px 12px';
-      li.style.borderBottom = '1px solid #eee';
-      li.style.cursor = 'pointer';
-
-      li.addEventListener('click', function(){
-        // عرض البطاقة في الجهة اليمنى باسم الخريج
-        subjectCard.style.display = 'block';
-        subjectTitle.textContent = g.name;
-        tabArea.innerHTML = '';
-        subTabsDiv.innerHTML = '';
-
-        // إنشاء تبويبان: رسالة التخرج ومشروع التخرج
-        g.tabs.forEach(t => {
-          const btn = document.createElement('button');
-          btn.textContent = t.title;
-          btn.style.marginRight = '8px';
-          btn.addEventListener('click', ()=> tabArea.innerHTML = t.content);
-          subTabsDiv.appendChild(btn);
-        });
-
-        // اختيار التبويب الأول تلقائيًا عند فتح الخريج
-        if(g.tabs.length > 0){
-          tabArea.innerHTML = g.tabs[0].content;
-        }
-
-        // التمرير تلقائيًا إلى الأعلى حتى يظهر المحتوى
-        subjectCard.scrollIntoView({behavior: 'smooth'});
-      });
-
-      graduatesList.appendChild(li);
+      li.textContent = item.title || ('غير مُسما - ' + (item.id || ''));
+      li.dataset.id = item.id;
+      li.onclick = ()=> selectSubject(item.id);
+      li.id = 'subject-' + item.id;
+      li.classList.remove('active');
+      subjectsListEl.appendChild(li);
     });
-  });
+    // اظهار عنوان المواد وإخفاء عنوان الخريجين
+    if(subjectsTitleEl) subjectsTitleEl.style.display = 'block';
+    if(graduatesTitleEl) graduatesTitleEl.style.display = 'none';
+    if(graduatesListEl) graduatesListEl.style.display = 'none';
 
-  // عند الضغط على أي تبويب آخر، العودة لقائمة المواد
-  mainTabs.forEach(btn => {
-    if(btn.id !== 'tab-graduate'){
-      btn.addEventListener('click', function(){
-        // إظهار قائمة المواد وإخفاء قائمة الخريجين
-        graduatesList.style.display = 'none';
-        graduatesTitle.style.display = 'none';
-        subjectsList.style.display = 'block';
-        subjectsTitle.style.display = 'block';
+    // اخفاء بطاقة المادة واظهار التعليمات الفارغة
+    if(subjectCard) subjectCard.style.display = 'none';
+    if(emptyCard) emptyCard.style.display = 'block';
+  }
 
-        subjectCard.style.display = 'none';
-        tabGraduate.classList.add('inactive');
+  // عرض محتوى الإعلان (كما في كودك السابق)
+  function showAdvertisement(){
+    if(!tabAreaEl) return;
+    if(subjectsListEl) subjectsListEl.innerHTML = '';
+    if(subjectCard) subjectCard.style.display = 'block';
+    if(emptyCard) emptyCard.style.display = 'none';
+    if(subjectTitleEl) subjectTitleEl.textContent = '📢 الإعلانات';
+    if(subTabsEl) subTabsEl.innerHTML = '';
 
-        // استدعاء selectMain للزر الحالي
-        if(typeof selectMain === 'function'){
-          selectMain(btn.id === 'tab-ads' ? 'Advertisement' : btn.getAttribute('onclick').match(/'([^']+)'/)[1]);
-        }
+    tabAreaEl.innerHTML = '';
+    const h = document.createElement('h3'); h.textContent = 'إعلانات مهمة';
+    tabAreaEl.appendChild(h);
+
+    if(!data.AdvertisementAnnouncements || data.AdvertisementAnnouncements.length===0){
+      const p = document.createElement('p'); p.className='hint'; p.textContent = 'لا توجد إعلانات حاليا.';
+      tabAreaEl.appendChild(p);
+      return;
+    }
+
+    const ul = document.createElement('ul');
+    data.AdvertisementAnnouncements.forEach(it=>{
+      const li = document.createElement('li');
+      if(it.url){
+        const a = document.createElement('a'); a.href = it.url; a.target='_blank'; a.rel='noopener'; a.className='link'; a.textContent = it.label;
+        li.appendChild(a);
+      } else {
+        const span = document.createElement('div'); span.textContent = it.label; span.style.color='var(--muted)'; li.appendChild(span);
+      }
+      ul.appendChild(li);
+    });
+    tabAreaEl.appendChild(ul);
+  }
+
+  // دوال المواضيع (selectSubject, renderSubTabs, openSubTab) — مأخوذة من كودك مع حماية بسيطة
+  function findSubjectById(id){
+    const arr = data[window.currentMain] || [];
+    return arr.find(s=>s.id === id) || null;
+  }
+
+  function selectSubject(id){
+    const subj = findSubjectById(id);
+    if(!subj) return;
+    window.currentSubject = subj;
+    // تفعيل العنصر في القائمة
+    document.querySelectorAll('.subject-list li').forEach(li=>li.classList.remove('active'));
+    const liEl = document.getElementById('subject-'+id); if(liEl) liEl.classList.add('active');
+
+    if(subjectCard) subjectCard.style.display = 'block';
+    if(emptyCard) emptyCard.style.display = 'none';
+    if(subjectTitleEl) subjectTitleEl.textContent = subj.title || '';
+
+    renderSubTabs();
+    openSubTab('videos');
+    try{ subjectCard.scrollIntoView({behavior:'smooth'}); }catch(e){}
+  }
+
+  function showSubjects(){
+    window.currentSubject = null;
+    document.querySelectorAll('.subject-list li').forEach(li=>li.classList.remove('active'));
+    if(subjectCard) subjectCard.style.display = 'none';
+    if(emptyCard) emptyCard.style.display = 'block';
+  }
+
+  function renderSubTabs(){
+    if(!subTabsEl) return;
+    subTabsEl.innerHTML = '';
+    const tabs = [
+      {key:'videos', label:'🎥 فيديوهات'},
+      {key:'books', label:'📑 كتب'},
+      {key:'models', label:'📂 نماذج'},
+      {key:'summaries', label:'📝 ملخصات'},
+      {key:'Telegram', label:'📌 تليجرام'},
+      {key:'news', label:'🔖 دليل المذاكرة'}
+    ];
+    tabs.forEach(t=>{
+      const btn = document.createElement('button');
+      btn.textContent = t.label;
+      btn.onclick = ()=> openSubTab(t.key);
+      btn.id = 'subbtn-' + t.key;
+      subTabsEl.appendChild(btn);
+    });
+  }
+
+  function openSubTab(tabKey){
+    window.currentSubTab = tabKey;
+    document.querySelectorAll('.sub-tabs button').forEach(b=>b.classList.remove('active'));
+    const btn = document.getElementById('subbtn-'+tabKey); if(btn) btn.classList.add('active');
+
+    if(!tabAreaEl) return;
+    tabAreaEl.innerHTML = '';
+    if(!window.currentSubject){
+      tabAreaEl.innerHTML = '<p class="hint">اختر مادة لعرض المحتوى.</p>';
+      return;
+    }
+
+    const items = window.currentSubject[tabKey] || [];
+    const titleMap = { videos:'قائمة الفيديوهات', books:'الكتب (PDF/ملفات)', models:'نماذج / ملفات', summaries:'الملخصات', Telegram:'قنوات تليجرام', news:'الإعلانات' };
+    const h = document.createElement('h3'); h.textContent = titleMap[tabKey] || 'المحتوى'; tabAreaEl.appendChild(h);
+
+    if(items.length === 0){
+      const p = document.createElement('p'); p.className='hint'; p.textContent = 'لا يوجد محتوى هنا بعد.';
+      tabAreaEl.appendChild(p); return;
+    }
+
+    const ul = document.createElement('ul');
+    items.forEach(it=>{
+      const li = document.createElement('li');
+      if(it.url){
+        const a = document.createElement('a'); a.href = it.url; a.target='_blank'; a.rel='noopener'; a.className='link'; a.textContent = it.label || it.url;
+        li.appendChild(a);
+      } else {
+        const span = document.createElement('div'); span.textContent = it.label || ''; span.style.color='var(--muted)'; li.appendChild(span);
+      }
+      if(it.desc){
+        const d = document.createElement('div'); d.style.marginTop='6px'; d.style.color='var(--muted)'; d.textContent = it.desc; li.appendChild(d);
+      }
+      ul.appendChild(li);
+    });
+    tabAreaEl.appendChild(ul);
+  }
+
+  // ---------------------------------------------------------
+  // دالة اختيار التبويب الرئيسية (تعتمد على التمرير السلس)
+ function selectMain(key){
+  try {
+    window.currentMain = key;
+    updateMainButtons(key);
+
+    if(key === 'Advertisement'){
+      showAdvertisement();
+      setTimeout(()=>{
+        if(subjectCard && subjectCard.style.display !== 'none') 
+          subjectCard.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 80);
+      return;
+    }
+
+    if(key === 'graduate'){
+      showGraduates();
+      setTimeout(()=>{
+        if(graduatesTitleEl) 
+          graduatesTitleEl.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 120);
+      return;
+    }
+
+    // أي تبويب مواد: إعادة عرض المواد وإخفاء الخريجين
+    if(subjectsListEl) subjectsListEl.style.display = 'block';
+    if(subjectsTitleEl) subjectsTitleEl.style.display = 'block';
+    if(graduatesListEl) graduatesListEl.style.display = 'none';
+    if(graduatesTitleEl) graduatesTitleEl.style.display = 'none';
+    subjectCard.style.display = 'none';
+    emptyCard.style.display = 'block';
+
+    renderSubjects(key); // عرض المواد حسب التبويب
+  } catch(err){
+    console.error('Error in selectMain:', err);
+  }
+}
+
+  // دالة بسيطة لعرض الخريجين في الجهة اليسرى (تعمل مع مصفوفة graduates المحلية أو data.graduates)
+  function showGraduates(){
+    // نحصل على قائمة الخريجين من data.graduates أو نستخدم قائمة افتراضية
+    const grads = (data && data.graduates) ? data.graduates : [
+      {id:'grad1', name:'الخريج 1', tabs:[{id:'grad-msg',title:'📜 رسالة التخرج',content:'<p>محتوى رسالة التخرج 1</p>'},{id:'grad-proj',title:'💼 مشروع التخرج',content:'<p>محتوى مشروع التخرج 1</p>'}]},
+      {id:'grad2', name:'الخريج 2', tabs:[{id:'grad-msg',title:'📜 رسالة التخرج',content:'<p>محتوى رسالة التخرج 2</p>'},{id:'grad-proj',title:'💼 مشروع التخرج',content:'<p>محتوى مشروع التخرج 2</p>'}]}
+    ];
+
+    // إخفاء قائمة المواد والعنوان
+    if(subjectsListEl) subjectsListEl.style.display = 'none';
+    if(subjectsTitleEl) subjectsTitleEl.style.display = 'none';
+
+    // إظهار قائمة الخريجين والعنوان
+    if(graduatesTitleEl) graduatesTitleEl.style.display = 'block';
+    if(graduatesListEl) {
+      graduatesListEl.style.display = 'block';
+      graduatesListEl.innerHTML = '';
+      grads.forEach(g=>{
+        const li = document.createElement('li');
+        li.textContent = g.name;
+        li.style.cursor = 'pointer';
+        li.onclick = function(){
+          // عند الضغط على اسم الخريج: عرض البطاقة اليمنى بالاسم والتبويبات الخاصة به
+          if(subjectCard) subjectCard.style.display = 'block';
+          if(emptyCard) emptyCard.style.display = 'none';
+          if(subjectTitleEl) subjectTitleEl.textContent = g.name;
+          // تنظيف وإظهار التبويبات المحتوى
+          if(subTabsEl) subTabsEl.innerHTML = '';
+          if(tabAreaEl) tabAreaEl.innerHTML = '';
+          // إضافة تبويبين فقط: رسالة ومشروع
+          (g.tabs || []).forEach(t=>{
+            const b = document.createElement('button');
+            b.textContent = t.title;
+            b.onclick = ()=> { if(tabAreaEl) tabAreaEl.innerHTML = t.content || ''; };
+            subTabsEl.appendChild(b);
+          });
+          // افتح المحتوى الأول تلقائيًا
+          if(g.tabs && g.tabs.length>0 && tabAreaEl) tabAreaEl.innerHTML = g.tabs[0].content || '';
+          // تمرير إلى البطاقة
+          try{ subjectCard.scrollIntoView({behavior:'smooth'}); }catch(e){}
+        };
+        graduatesListEl.appendChild(li);
       });
     }
-  });
+  }
+
+  // ---------------------------------------------------------
+  // ربط أزرار التبويب (نضع مستمعين بدل الاعتماد على onclick المنسوخ في HTML)
+  for(const key in btnIds){
+    const id = btnIds[key];
+    const btn = document.getElementById(id);
+    if(!btn) continue;
+    // ننظف أي مستمع قديم ونضيف المستمع الجديد
+    btn.replaceWith(btn.cloneNode(true));
+  }
+  // إعادة جلب الأزرار ثم إضافة listeners
+  for(const key in btnIds){
+    const id = btnIds[key];
+    const btn = document.getElementById(id);
+    if(!btn) continue;
+    btn.addEventListener('click', ()=> selectMain(key));
+  }
+
+  // نجعل الدالة متاحة عالميًا بنفس الاسم القديم
+  window.selectMain = selectMain;
+
+  // نشغل التبويب الافتراضي (college) بعد تحميل السكربتsetTimeout(()=> selectMain(window.currentMain || 'college'), 120);
+
+console.log('Tabs script loaded. Elements:', {
+  subjectsList: !!subjectsListEl,
+  subjectsTitle: !!subjectsTitleEl,
+  graduatesList: !!graduatesListEl,
+  graduatesTitle: !!graduatesTitleEl,
+  subjectCard: !!subjectCard
+});
 
 })();
 </script>
