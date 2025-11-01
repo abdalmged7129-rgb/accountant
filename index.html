@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>بوابة دليل الطالب قسم المحاسبة جامعة العلوم والتكنولجيا - اختبار </title>
+  <title>بوابة دليل الطالب قسم المحاسبة جامعة العلوم والتكنولجيا </title>
   <style>
     :root {
       --main: #7b2cbf;
@@ -301,12 +301,37 @@ section {
   </style>
 </head>
 <body>
+
+
+
 <section style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px; background-color: #f9f9f9; border-bottom: 1px solid #ddd;">
   <img src="https://tse1.mm.bing.net/th/id/OIP.d13fS_p3ogsIpTN3B66YPAHaHg?cb=12&w=1010&h=1024&rs=1&pid=ImgDetMain&o=7&rm=3.png" 
        alt="شعار الجامعة" style="width:50px; height:auto;">
-  <h1 style="font-size: 16px; margin: 0;">بوابة دليل الطالب في جامعة العلوم والتكنولوجيا اليمن قسم المحاسبة </h1>
+  <h1 style="font-size: 16px; margin: 0;">بوابة طلاب جامعة العلوم والتكنولوجيا اليمن - قسم المحاسبة </h1>
 </section>
 
+
+
+
+   <!-- ===== نموذج الدخول (ظاهر مبدئياً) ===== -->
+    <div id="loginForm">
+      <div class="field">
+        <label for="user">اسم المستخدم</label>
+        <input id="user" autocomplete="username" />
+      </div>
+
+      <div class="field">
+        <label for="pwd">كلمة المرور</label>
+        <input id="pwd" type="password" autocomplete="current-password" />
+      </div>
+
+      <button id="loginBtn" style="width:100%;">دخول</button>
+    </div>
+
+    <hr class="sep">
+
+    <!-- ===== المحتوى المحمي: ضع هنا فقط الـ FRAGMENT (بدون DOCTYPE/HTML/HEAD/BODY) ===== -->
+    <div id="protectedContent" class="hidden">
 
 <header style="background-color: #d0e6ff; padding: 15px; text-align: center;">
   <h1 style="
@@ -326,11 +351,10 @@ section {
       border-radius: 5px;
       background-color: #f3eaff;
     ">
-      📢الإعلانات اضغط هنا
+      📢 إعلانات اضغط هنا
     </a>
   </nav>
 </header>
-
 
 
 
@@ -560,7 +584,8 @@ videos:[
          {label:'نموذج النظري الاقتصاد الكلي ^Nاختبر نفسك', url:'https://drive.google.com/open?id=1Hwu-NBroWyyUu5ikNH0aUcoRywhxu0QC&usp=drive_fs=drivesdk'},]
 , summaries:[
          {label:'حسابي الاقتصاد الكلي1.', url:'https://drive.google.com/open?id=1A8IKVxdtbjst9fHsiZRu_mx-aNk3tmAL&usp=drive_fs=drivesdk'},
-         {label:'مقالي كلي ', url:'https://drive.google.com/open?id=1oLIOJBAlOVPJC83y4Y5-3Y6m5zzUXYK8&usp=drive_fs=drivesdk'}]
+         {label:'مقالي كلي ', url:'https://drive.google.com/open?id=1oLIOJBAlOVPJC83y4Y5-3Y6m5zzUXYK8&usp=drive_fs=drivesdk'},
+         {label:'📊 ملخص مبادئ الاقتصاد الكلي', url:'https://summary-of-macroeconomic-principles1.netlify.app/'}]
 , Telegram:[
             {label:'شرح الاقتصاد الكلي 🤍.', url:'https://t.me/rymy2023'},
             {label:'اقتصاد كلي', url:'https://t.me/+ueUPiEBnDA5iZDM0'}]
@@ -2796,7 +2821,7 @@ books:[
     id: 'grad2',
     name: 'الخريج 2',
     tabs: [
-      { id: 'grad-msg', title: '📜 رسالة التخرج', content: '' },
+      { id: 'grad-msg', title: '📜 رسالة التخرج', content: 'تواصل مع ادارة البوابة لوضع رسالة ومشرع تخرجك هنا' },
       { id: 'grad-proj', title: '💼 مشاريع التخرج', content: '' }
     ]
   },
@@ -2806,7 +2831,7 @@ books:[
     id: 'grad3',
     name: 'الخريج 3',
     tabs: [
-      { id: 'grad-msg', title: '📜 رسالة التخرج', content: '' },
+      { id: 'grad-msg', title: '📜 رسالة التخرج', content: 'تواصل مع ادارة البوابة لوضع رسالة ومشرع تخرجك هنا' },
       { id: 'grad-proj', title: '💼 مشاريع التخرج', content: '' }
     ]
   }
@@ -3625,5 +3650,114 @@ setInterval(() => {
     `🕒 الوقت المتبقي للاختبارات: ${days}يوم`;
 }, 1000);
 </script>
+</h2>
+      <p>اضغ زر تسجيل الخروج للعودة لقائمة تسجيل الدخول.</p>
+      <!-- مثال: زر خروج لإعادة عرض نموذج الدخول -->
+      <div style="margin-top:12px">
+        <button id="logoutBtn" style="background:#ffd6d6">تسجيل خروج</button>
+      </div>
+    </div>
 
+  </div>
+</div>
+ 
 
+<div class="field">
+  <label>
+    <input type="checkbox" id="rememberChk" /> تذكرني على هذا الجهاز
+  </label>
+</div>
+
+<script>
+  const users = {
+    "salim":"0580616010",
+    "Sadeq": "0533263031",
+    "Mohamed": "0545237384",
+    "Fatima": "0546348345",
+    "eman": "0557211628",
+   // دفعة 2026
+    "712986967":"712986967",
+  };
+
+  const loginForm = document.getElementById('loginForm');
+  const protectedContent = document.getElementById('protectedContent');
+  const userEl = document.getElementById('user');
+  const pwdEl = document.getElementById('pwd');
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const rememberChk = document.getElementById('rememberChk');
+
+  // helpers لحفظ واسترجاع كائن ال credentials
+  function getSavedCreds(){
+    try{
+      return JSON.parse(localStorage.getItem('savedCreds') || '{}');
+    }catch(e){
+      return {};
+    }
+  }
+  function setSavedCreds(obj){
+    localStorage.setItem('savedCreds', JSON.stringify(obj));
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=> {
+    protectedContent.classList.add('hidden');
+    loginForm.classList.remove('hidden');
+
+    // إذا وُجد اسم مستخدم محفوظ فقط (نملأ إسم المستخدم)
+    const savedCreds = getSavedCreds();
+    // نملأ اسم المستخدم الافتراضي بآخر اسم تم استخدامه (اختياري)
+    const lastUser = localStorage.getItem('lastUser');
+    if(lastUser) userEl.value = lastUser;
+
+    // إذا كان يوجد كلمة مرور محفوظة لهذا الـ username نملئها تلقائياً
+    if(lastUser && savedCreds[lastUser]){
+      pwdEl.value = savedCreds[lastUser];
+      rememberChk.checked = true;
+    }
+  });
+
+  function tryLogin(){
+    const name = (userEl.value||'').trim();
+    const code = (pwdEl.value||'').trim();
+
+    if(name && users[name] && users[name] === code){
+      loginForm.classList.add('hidden');
+      protectedContent.classList.remove('hidden');
+
+      // احفظ آخر مستخدم استخدم الجهاز (لملء الحقل لاحقًا)
+      localStorage.setItem('lastUser', name);
+
+      // إذا اختار المستخدم "تذكرني" فاحفظ كلمة المرور تحت اسمه
+      if(rememberChk.checked){
+        const sc = getSavedCreds();
+        sc[name] = code; // يحفظ/يحدث كلمة المرور لهذا الاسم
+        setSavedCreds(sc);
+      } else {
+        // إذا لم يختِر تذكّرني، تأكد من إزالة كلمة المرور المحفوظة لهذا المستخدم
+        const sc = getSavedCreds();
+        if(sc[name]){ delete sc[name]; setSavedCreds(sc); }
+      }
+
+      // لتنظيف الحقول (خصوصية)
+      userEl.value = '';
+      pwdEl.value = '';
+      rememberChk.checked = false;
+    } else {
+      alert("اسم المستخدم أو كلمة المرور خاطئة");
+      pwdEl.value = '';
+      pwdEl.focus();
+    }
+  }
+
+  logoutBtn.addEventListener('click', ()=>{
+    protectedContent.classList.add('hidden');
+    loginForm.classList.remove('hidden');
+    userEl.focus();
+    // خيار: امسح آخر مستخدم عند الخروج (غير مفعل بالافتراضي)
+    // localStorage.removeItem('lastUser');
+  });
+
+  loginBtn.addEventListener('click', tryLogin);
+  userEl.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+  pwdEl.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+</script>
